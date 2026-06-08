@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BookACallButton from "./BookACallButton";
 
 function DimyonLogo() {
   return (
@@ -85,16 +86,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-6 sm:gap-8">
-          <a
-            href="https://wa.me/972525400579"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-white/15 bg-white/5 px-5 py-2 text-sm font-medium text-white transition-colors hover:border-white/30 hover:bg-white/10"
-          >
-            Book a Call
-          </a>
-        </div>
+        <BookACallButton />
       </nav>
     </header>
   );

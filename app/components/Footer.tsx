@@ -109,19 +109,19 @@ export default function Footer() {
 
   return (
     <footer
-      className="relative overflow-hidden bg-[#05070a] text-white"
+      className="relative overflow-hidden bg-[#05070a] text-white pt-10"
       onMouseMove={(event) =>
         setCursor({ x: event.clientX, y: event.clientY })
       }
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <TextHoverEffectBackground
+      {/* <TextHoverEffectBackground
         text="Dimyon"
-        className="opacity-[0.34]"
+        className="opacity-[0.2]"
         cursor={cursor}
         hovered={hovered}
-      />
+      /> */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-64 bg-[radial-gradient(ellipse_at_bottom,rgba(96,165,250,0.22)_0%,transparent_70%)]"
@@ -209,17 +209,6 @@ export default function Footer() {
               ))}
             </div>
           </div>
-        </div>
-
-        <div className="mt-14 flex flex-col gap-4 border-t border-white/5 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-2">
-            <span>All systems are working</span>
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-            </span>
-          </div>
-          <p>© {year} Dimyon. All rights reserved.</p>
         </div>
       </div>
     </footer>
