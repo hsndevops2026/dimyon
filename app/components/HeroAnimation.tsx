@@ -544,6 +544,14 @@ export default function HeroAnimation() {
           aria-hidden
         >
           <defs>
+            <clipPath id="logo-circle-clip">
+              <circle cx={0} cy={0} r={100} />
+            </clipPath>
+            <radialGradient id="logo-border-fade" cx="50%" cy="50%" r="50%">
+              <stop offset="70%" stopColor="#60a5fa" stopOpacity={0} />
+              <stop offset="88%" stopColor="#60a5fa" stopOpacity={0.55} />
+              <stop offset="100%" stopColor="#818cf8" stopOpacity={0} />
+            </radialGradient>
             <linearGradient
               id="orbit-grad1"
               gradientUnits="userSpaceOnUse"
@@ -690,6 +698,26 @@ export default function HeroAnimation() {
                 />
               </g>
             ))}
+
+            {/* Logo centered in the orbit */}
+            <image
+              href="/logo.png"
+              x={-100}
+              y={-100}
+              width={200}
+              height={200}
+              preserveAspectRatio="xMidYMid meet"
+              clipPath="url(#logo-circle-clip)"
+              style={{ filter: "drop-shadow(0 0 18px rgba(96,165,250,0.5))" }}
+            />
+            {/* Faded border ring around logo */}
+            <circle
+              cx={0}
+              cy={0}
+              r={100}
+              fill="url(#logo-border-fade)"
+              stroke="none"
+            />
           </g>
 
           {ORBIT_TEXTS.map((item, i) => (
