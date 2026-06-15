@@ -3,6 +3,7 @@ import DiscoverServicesScroll from './components/DiscoverServicesScroll';
 import Footer from './components/Footer';
 import HeroAnimation from './components/HeroAnimation';
 import IsometricShowcase from './components/IsometricShowcase';
+import VisualizerVideo from './components/VisualizerVideo';
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       </main>
       <DiscoverServicesScroll />
       <IsometricShowcase />
+      <VisualizerVideo />
       <section id="testimonials" className="relative z-10 isolate dark bg-[#05070a]">
         <AnimatedTestimonialsDemo />
       </section>
