@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "after-effects": {
+      "source": "aedev-tools/adobe-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/after-effects/SKILL.md",
+      "computedHash": "f1f79ab96fa8cb63b6c530e360baeb705cf9e2e80b1dc5aad7f0b659f8d67c79"
+    }
+  }
+}
