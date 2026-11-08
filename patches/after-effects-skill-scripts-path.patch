@@ -1,0 +1,43 @@
+From d055f6f27503eb13276c3eae2c1b3bb102e3fe62 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 8 Nov 2026 20:20:45 +0000
+Subject: [PATCH] Fix scripts path resolution in after-effects SKILL.md
+
+The setup step resolved ~/.claude/skills/after-effects-assistant/scripts,
+but the skill is installed as 'after-effects' and is often project-level
+(npx skills add installs to <repo>/.claude/skills/after-effects).
+Check the project-level install first, then ~/.claude/skills/after-effects,
+and resolve symlinks with pwd -P, which works on macOS and Linux.
+---
+ skills/after-effects/SKILL.md | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/skills/after-effects/SKILL.md b/skills/after-effects/SKILL.md
+index 027627d..3be3b65 100644
+--- a/skills/after-effects/SKILL.md
++++ b/skills/after-effects/SKILL.md
+@@ -108,14 +108,18 @@ Before writing or executing any action script, resolve the skill's real (non-sym
+ 
+ Run this once at the start of each session:
+ ```bash
+-SKILL_SCRIPTS="$(readlink -f ~/.claude/skills/after-effects-assistant/scripts 2>/dev/null || readlink ~/.claude/skills/after-effects-assistant/scripts)"
+-echo "$SKILL_SCRIPTS"
++for d in "$(git rev-parse --show-toplevel 2>/dev/null)/.claude/skills/after-effects/scripts" "$HOME/.claude/skills/after-effects/scripts"; do
++  [ -d "$d" ] && SKILL_SCRIPTS="$(cd "$d" && pwd -P)" && break
++done
++echo "${SKILL_SCRIPTS:?after-effects skill scripts not found}"
+ ```
+ 
++This checks the project-level install (`<repo>/.claude/skills/after-effects/scripts`) first, then the user-level install (`~/.claude/skills/after-effects/scripts`). `pwd -P` resolves symlinks on both macOS and Linux.
++
+ Use the resolved path (`$SKILL_SCRIPTS`) for all subsequent Write and Bash commands in this session.
+ 
+ **Why this matters:**
+-- `~/.claude/skills/` is typically a symlink — ExtendScript `#include` fails through symlinks
++- Skill directories are often symlinks (e.g. into `.agents/skills/`) — ExtendScript `#include` fails through symlinks
+ - Writing to the real `scripts/` directory lets `#include "lib/json2.jsx"` resolve correctly
+ - The resolved path changes per machine, so never hardcode it
+ 
+-- 
+2.43.0
+
