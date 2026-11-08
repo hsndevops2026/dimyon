@@ -108,14 +108,18 @@ Before writing or executing any action script, resolve the skill's real (non-sym
 
 Run this once at the start of each session:
 ```bash
-SKILL_SCRIPTS="$(readlink -f ~/.claude/skills/after-effects-assistant/scripts 2>/dev/null || readlink ~/.claude/skills/after-effects-assistant/scripts)"
-echo "$SKILL_SCRIPTS"
+for d in "$(git rev-parse --show-toplevel 2>/dev/null)/.claude/skills/after-effects/scripts" "$HOME/.claude/skills/after-effects/scripts"; do
+  [ -d "$d" ] && SKILL_SCRIPTS="$(cd "$d" && pwd -P)" && break
+done
+echo "${SKILL_SCRIPTS:?after-effects skill scripts not found}"
 ```
+
+This checks the project-level install (`<repo>/.claude/skills/after-effects/scripts`) first, then the user-level install (`~/.claude/skills/after-effects/scripts`). `pwd -P` resolves symlinks on both macOS and Linux.
 
 Use the resolved path (`$SKILL_SCRIPTS`) for all subsequent Write and Bash commands in this session.
 
 **Why this matters:**
-- `~/.claude/skills/` is typically a symlink — ExtendScript `#include` fails through symlinks
+- Skill directories are often symlinks (e.g. into `.agents/skills/`) — ExtendScript `#include` fails through symlinks
 - Writing to the real `scripts/` directory lets `#include "lib/json2.jsx"` resolve correctly
 - The resolved path changes per machine, so never hardcode it
 
